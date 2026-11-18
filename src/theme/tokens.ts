@@ -37,7 +37,7 @@ export const touchTarget = 52;
 
 export const shadow = {
   card: {
-    shadowColor: "#0f5c5c",
+    shadowColor: "#3E698E",
     shadowOpacity: 0.08,
     shadowRadius: 12,
     shadowOffset: { width: 0, height: 6 },

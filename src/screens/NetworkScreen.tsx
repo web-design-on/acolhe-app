@@ -90,7 +90,7 @@ export function NetworkScreen() {
 const styles = StyleSheet.create({
   person: {
     flexDirection: "row", alignItems: "center", gap: spacing.md, paddingVertical: 14, paddingHorizontal: 4,
-    borderBottomWidth: 1, borderBottomColor: colors.border, minHeight: 76,
+    borderBottomWidth: 1, borderBottomColor: colors.divider, minHeight: 76,
   },
   channels: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
 });

@@ -14,7 +14,7 @@
     "android": {
       "package": "br.com.acolhe.app",
       "adaptiveIcon": {
-        "backgroundColor": "#0f5c5c",
+        "backgroundColor": "#3E698E",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"

@@ -95,5 +95,5 @@ const styles = StyleSheet.create({
   subheading: { marginTop: spacing.xl, marginBottom: spacing.sm },
   check: { width: 72, height: 72, borderRadius: 36, backgroundColor: colors.success, alignItems: "center", justifyContent: "center" },
   eta: { flexDirection: "row", alignItems: "center", gap: spacing.md, alignSelf: "stretch", marginVertical: spacing.xl },
-  demo: { marginTop: spacing.xxl, paddingTop: spacing.md, borderTopWidth: 1, borderTopColor: colors.border },
+  demo: { marginTop: spacing.xxl, paddingTop: spacing.md, borderTopWidth: 1, borderTopColor: colors.divider },
 });

@@ -6,11 +6,10 @@
  * Os valores são os mesmos do portal web (acolhe-web/src/theme/colors.ts).
  */
 export const palette = {
-  teal900: "#0c4e4e",
-  teal800: "#094747",
-  teal700: "#0f5c5c",
-  teal200: "#d4e8e5",
-  teal100: "#e6f1ef",
+  blue600: "#3E698E",
+  teal600: "#3C909B",
+  teal400: "#5AA7A7",
+  lime400: "#BAC94A",
 
   red700: "#b3261e",
   red200: "#f3d0cd",
@@ -27,20 +26,19 @@ export const palette = {
 
   neutral0: "#ffffff",
   neutral50: "#faf8f5",
-  neutral150: "#f2f1ee",
-  neutral200: "#eeece8",
-  neutral300: "#dedbd5",
-  neutral400: "#c9c8c3",
-  neutral500: "#848785",
   neutral600: "#666b69",
+  neutral500: "#848785",
   neutral900: "#1a1a1a",
 } as const;
 
 export const colors = {
-  primary: palette.teal700,
-  primaryDark: palette.teal800,
-  primarySoft: palette.teal100,
-  primaryMuted: palette.teal200,
+  primary: palette.blue600,
+  primaryDark: palette.teal600,
+  primarySoft: palette.neutral50,
+  primaryMuted: palette.neutral50,
+  secondary: palette.teal400,
+  focus: palette.teal600,
+  divider: palette.lime400,
 
   danger: palette.red700,
   dangerSoft: palette.red100,
@@ -53,11 +51,11 @@ export const colors = {
   infoSoft: palette.blue100,
 
   background: palette.neutral50,
-  surface: palette.neutral0,
-  surfaceMuted: palette.neutral150,
-  border: palette.neutral300,
-  borderSoft: palette.neutral200,
-  borderStrong: palette.neutral400,
+  surface: palette.neutral50,
+  surfaceMuted: palette.neutral50,
+  border: palette.teal400,
+  borderSoft: palette.teal400,
+  borderStrong: palette.teal400,
   text: palette.neutral900,
   textMuted: palette.neutral600,
   textSubtle: palette.neutral500,
