@@ -147,6 +147,13 @@ export const alertService = {
     );
   },
 
+  /** Estado atual de um alerta (também os já encerrados). */
+  async getById(alertId: string): Promise<EmergencyAlert> {
+    if (!apiConfig.useMocks) return http.get<EmergencyAlert>(`/alerts/${alertId}`);
+    const alert = findAlert(alertId);
+    return alert ? mockResponse(alert, 100) : mockError("Alerta não encontrado.");
+  },
+
   async getActive(patientId: string): Promise<EmergencyAlert | null> {
     if (!apiConfig.useMocks) return http.get<EmergencyAlert | null>(`/patients/${patientId}/alerts/active`);
     return mockResponse(alerts.find((a) => a.patientId === patientId && (a.status === "enviado" || a.status === "assumido")) ?? null, 100);

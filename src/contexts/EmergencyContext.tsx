@@ -1,45 +1,42 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { Alert } from "react-native";
 import { router } from "expo-router";
 import { useAuth } from "./AuthContext";
-import { alertService, apiConfig } from "@/services";
+import { alertService, apiConfig, ApiError } from "@/services";
 import type { EmergencyAlert } from "@/types";
 
 interface EmergencyContextValue {
-  /** Alerta em andamento (ou o último, enquanto a tela de resultado estiver aberta). */
   alert: EmergencyAlert | null;
-  /** Demonstração: finge que a pessoa cuidada está sem internet, e o alerta sai por SMS. */
   offline: boolean;
   setOffline: (value: boolean) => void;
-  /** Pessoa cuidada: envia o pedido de ajuda (depois da contagem). */
   sendAlert: () => Promise<void>;
-  cancelAlert: () => Promise<void>;
-  /** Cuidador: assume ou recusa o atendimento. */
+  cancelAlert: () => Promise<boolean>;
   respond: (answer: "assumiu" | "recusou") => Promise<void>;
   resolveAlert: () => Promise<void>;
   clear: () => void;
-  /** Só na demonstração: cuidador recebe um alerta como se a Dona Maria tivesse apertado o botão. */
   simulateIncomingAlert: () => Promise<void>;
 }
 
 const EmergencyContext = createContext<EmergencyContextValue | null>(null);
 
+function showActionError(e: unknown, fallback: string) {
+  Alert.alert("Algo deu errado", e instanceof Error && e.message ? e.message : fallback);
+}
+
 export function EmergencyProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const [alert, setAlert] = useState<EmergencyAlert | null>(null);
   const [offline, setOffline] = useState(false);
-  /** Alertas que já abriram a tela de "recebido": o mesmo alerta chega várias vezes enquanto muda. */
   const announced = useRef(new Set<string>());
 
-  // Ouve os alertas da pessoa cuidada em "tempo real" (com a API, por consulta periódica).
   useEffect(() => {
     if (!user) return;
     const unsubscribe = alertService.subscribe(user.patientId, (incoming) => {
-      // Cancelado (por quem pediu ajuda): some da tela de todos.
       if (incoming.status === "cancelado") {
         setAlert((current) => (current?.id === incoming.id ? null : current));
         return;
       }
-      // Resolvido: só atualiza quem ainda está vendo este alerta (não reabre uma tela já fechada).
+
       if (incoming.status === "resolvido") {
         setAlert((current) => (current?.id === incoming.id ? incoming : current));
         return;
@@ -61,22 +58,43 @@ export function EmergencyProvider({ children }: { children: ReactNode }) {
 
   const sendAlert = useCallback(async () => {
     if (!user) return;
-    setAlert(await alertService.trigger(user.patientId, user.displayName, true, offline));
+    try {
+      setAlert(await alertService.trigger(user.patientId, user.displayName, true, offline));
+    } catch (e) {
+      showActionError(e, "Não foi possível enviar o pedido de ajuda. Se for urgente, ligue para alguém da sua rede.");
+    }
   }, [user, offline]);
 
+  const runAction = useCallback(async (alertId: string, action: () => Promise<EmergencyAlert>) => {
+    try {
+      setAlert(await action());
+      return true;
+    } catch (e) {
+      if (!(e instanceof ApiError && (e.status === 409 || e.status === 404))) {
+        showActionError(e, "Não foi possível concluir agora. Confira a internet e tente de novo.");
+        return false;
+      }
+      const latest = await alertService.getById(alertId).catch(() => null);
+      setAlert(latest && latest.status !== "cancelado" ? latest : null);
+      return true;
+    }
+  }, []);
+
   const cancelAlert = useCallback(async () => {
-    if (alert) await alertService.cancel(alert.id);
+    if (alert && !(await runAction(alert.id, () => alertService.cancel(alert.id)))) return false;
     setAlert(null);
-  }, [alert]);
+    return true;
+  }, [alert, runAction]);
 
   const respond = useCallback(async (answer: "assumiu" | "recusou") => {
     if (!alert || !user?.caregiverId) return;
-    setAlert(await alertService.respond(alert.id, user.caregiverId, answer));
-  }, [alert, user]);
+    const caregiverId = user.caregiverId;
+    await runAction(alert.id, () => alertService.respond(alert.id, caregiverId, answer));
+  }, [alert, user, runAction]);
 
   const resolveAlert = useCallback(async () => {
-    if (alert) setAlert(await alertService.resolve(alert.id));
-  }, [alert]);
+    if (alert) await runAction(alert.id, () => alertService.resolve(alert.id));
+  }, [alert, runAction]);
 
   const simulateIncomingAlert = useCallback(async () => {
     if (!user) return;

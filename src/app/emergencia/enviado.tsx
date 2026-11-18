@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ActivityIndicator, Linking, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { AppText, Button, Icon, InfoBanner, Screen } from "@/components/ui";
@@ -7,11 +8,12 @@ import { useEmergency } from "@/contexts/EmergencyContext";
 import { useCaregivers } from "@/hooks/useCare";
 import { colors, spacing } from "@/theme";
 
-/** Pessoa cuidada: acompanha quem viu e quem assumiu o pedido de ajuda. */
 export default function AlertSentScreen() {
   const user = useCurrentUser();
   const { alert, cancelAlert, clear } = useEmergency();
   const { data: caregivers = [] } = useCaregivers(user.patientId);
+
+  const [cancelling, setCancelling] = useState(false);
 
   const goHome = () => {
     clear();
@@ -69,7 +71,15 @@ export default function AlertSentScreen() {
             <ActivityIndicator color={colors.success} />
             <AppText color="textMuted">Aguardando alguém assumir...</AppText>
           </View>
-          <Button label="Cancelar alerta" variant="ghost" onPress={() => cancelAlert().then(goHome)} />
+          <Button
+            label="Cancelar alerta"
+            variant="ghost"
+            loading={cancelling}
+            onPress={() => {
+              setCancelling(true);
+              cancelAlert().then((ok) => (ok ? goHome() : setCancelling(false)));
+            }}
+          />
         </>
       )}
 

@@ -26,6 +26,17 @@ export default function RemediosScreen() {
           const taken = doses.filter((d) => d.status === "tomado").length;
           const current = doses.find((d) => d.status !== "tomado");
           const later = doses.filter((d) => d.status !== "tomado" && d.id !== current?.id);
+
+          if (doses.length === 0) {
+            return (
+              <InfoBanner
+                icon="package"
+                tone="info"
+                title="Nenhum remédio cadastrado na rotina"
+                description="Quando um remédio for cadastrado pelo médico ou pela sua família, ele aparece aqui."
+              />
+            );
+          }
           return (
             <>
               <View style={styles.heading}>
