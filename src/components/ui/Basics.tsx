@@ -1,6 +1,6 @@
 /** Peças visuais pequenas e reutilizáveis: cartão, avatar, etiqueta, ícone com fundo e faixa de aviso. */
 import type { ReactNode } from "react";
-import { StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
+import { Image, StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
 import { AppText } from "./AppText";
 import { Icon, type IconName } from "./Icon";
 import { colors, radius, spacing, type ColorToken } from "@/theme";
@@ -78,9 +78,12 @@ export function InfoBanner({ icon, title, description, tone = "success", style }
 export function Brand({ inverted = false }: { inverted?: boolean }) {
   return (
     <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.sm }}>
-      <View style={[styles.brandMark, inverted && { backgroundColor: colors.surface }]}>
-        <Icon name="heart" color={inverted ? "primary" : "textOnPrimary"} size={24} />
-      </View>
+      <Image
+        source={inverted ? require("../../../assets/logobranco_acolhe.png") : require("../../../assets/logo_acolhe.png")}
+        style={styles.brandMark}
+        resizeMode="contain"
+        accessibilityElementsHidden
+      />
       <AppText size="xxl" bold color={inverted ? "textOnPrimary" : "primary"}>Acolhe</AppText>
     </View>
   );
@@ -97,5 +100,5 @@ const styles = StyleSheet.create({
   },
   tag: { flexDirection: "row", alignItems: "center", gap: 4, borderRadius: radius.pill, paddingHorizontal: 10, paddingVertical: 5, alignSelf: "flex-start" },
   banner: { flexDirection: "row", alignItems: "center", gap: spacing.md, borderRadius: 14, padding: 14 },
-  brandMark: { width: 46, height: 46, borderRadius: 14, backgroundColor: colors.primary, alignItems: "center", justifyContent: "center" },
+  brandMark: { width: 52, height: 52 },
 });
