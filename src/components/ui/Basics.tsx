@@ -14,12 +14,12 @@ export function Avatar({ initials, size = 44, tone = "primary" }: { initials: st
     <View
       style={{
         width: size, height: size, borderRadius: size / 2, alignItems: "center", justifyContent: "center",
-        backgroundColor: tone === "info" ? colors.infoSoft : colors.primaryMuted,
+        backgroundColor: tone === "info" ? colors.infoSoft : colors.primary,
       }}
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
     >
-      <AppText bold size={size > 50 ? "lg" : "md"} color={tone === "info" ? "info" : "primary"}>{initials}</AppText>
+      <AppText bold size={size > 50 ? "lg" : "md"} color={tone === "info" ? "info" : "surface"}>{initials}</AppText>
     </View>
   );
 }
