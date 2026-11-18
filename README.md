@@ -60,8 +60,36 @@ npx eas-cli@latest build --profile development --platform android
 O iPhone exige um Mac com Xcode (`npx expo run:ios`) ou o EAS Build com conta de desenvolvedor Apple.
 Depois de instalar, segure o dedo na tela inicial → Widgets → **Acolhe SOS**.
 
-> ⚠️ Os widgets ainda não foram testados em aparelho real. O código segue a documentação das duas bibliotecas,
-> mas pode precisar de pequenos ajustes no primeiro build.
+### Gerar um APK para o grupo testar (Android)
+
+O perfil `preview` do `eas.json` gera um **APK** que roda sozinho no celular, sem computador nem `expo start`.
+O build é feito na nuvem do Expo (uns 10 a 20 minutos), sem precisar do Android Studio.
+
+```bash
+npx eas-cli@latest login          # só na primeira vez
+npx eas-cli@latest build -p android --profile preview
+```
+
+No final aparecem um **link e um QR code** (também ficam em expo.dev → projeto `acolhe-app` → Builds).
+Mande o link para o grupo.
+
+**Para instalar no celular:**
+
+1. Abra o link no celular Android e baixe o APK.
+2. Se o Android pedir, permita instalar de **fontes desconhecidas**.
+3. Abra o app uma vez e entre (ex.: **"Entrar como Dona Maria"**).
+4. Segure o dedo na tela inicial → **Widgets** → **Acolhe SOS** e arraste para a tela.
+
+**Observações:**
+
+- O APK sai no **modo demonstração** (dados simulados): o `.env` não vai para o build. Para usar a API real,
+  cadastre `EXPO_PUBLIC_USE_MOCKS=false` e `EXPO_PUBLIC_API_URL` (URL pública, não `localhost`) em
+  expo.dev → projeto → **Environment variables**, no ambiente `preview`.
+- **Não use o perfil `development` para o grupo.** Ele só funciona com o `expo start` rodando no seu computador.
+- **Mudou o código? Gere um build novo** e mande o novo link.
+- **iPhone não instala APK.** Para testar o widget no iOS é preciso conta Apple Developer (paga) e cadastrar
+  cada aparelho (`npx eas-cli@latest device:create`) ou distribuir pelo TestFlight.
+
 
 ## Estrutura de pastas
 
