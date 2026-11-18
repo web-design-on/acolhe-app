@@ -62,34 +62,62 @@ Depois de instalar, segure o dedo na tela inicial → Widgets → **Acolhe SOS**
 
 ### Gerar um APK para o grupo testar (Android)
 
-O perfil `preview` do `eas.json` gera um **APK** que roda sozinho no celular, sem computador nem `expo start`.
-O build é feito na nuvem do Expo (uns 10 a 20 minutos), sem precisar do Android Studio.
+O perfil `preview` do `eas.json` gera um **APK** (`"buildType": "apk"`) que roda sozinho no celular, sem computador
+nem `expo start`. O build é feito na nuvem do Expo (uns 10 a 20 minutos, mais o tempo de fila no plano gratuito),
+sem precisar do Android Studio. O widget de SOS já foi testado assim num celular Android e funcionou.
+
+> **Só uma pessoa gera o APK.** Quem gera roda o comando abaixo e manda o link para o grupo.
+> Quem só vai testar **não precisa de nada disso**: nem terminal, nem conta no Expo, nem `.env`, nem o código.
+> Basta abrir o link no celular e instalar (veja [Para instalar no celular](#para-instalar-no-celular)).
 
 ```bash
 npx eas-cli@latest login          # só na primeira vez
 npx eas-cli@latest build -p android --profile preview
 ```
 
-No final aparecem um **link e um QR code** (também ficam em expo.dev → projeto `acolhe-app` → Builds).
+Na primeira vez, o CLI pergunta se pode gerar uma keystore (a chave que assina o app): responda **sim**. Ela fica
+guardada no EAS e é reaproveitada nos próximos builds.
+
+No final aparecem um **link e um QR code** (também ficam em expo.dev → projeto `acolhe-app` → **Builds**).
 Mande o link para o grupo.
 
-**Para instalar no celular:**
+#### Variáveis de ambiente do build
+
+O `.env` **não vai para o build**. As variáveis do APK ficam cadastradas no EAS, no ambiente `preview`, e já estão
+configuradas. Não é preciso mexer no expo.dev:
+
+| Variável | Valor no EAS (`preview`) |
+| --- | --- |
+| `EXPO_PUBLIC_USE_MOCKS` | `false` (usa os dados oficiais) |
+| `EXPO_PUBLIC_API_URL` | `https://acolhe-web-tau.vercel.app/api` |
+| `EXPO_PUBLIC_WEB_URL` | `https://acolhe-web-tau.vercel.app` |
+
+- Para conferir: `npx eas-cli@latest env:list --environment preview` (ou expo.dev → projeto → **Environment variables**).
+- Para mudar um valor, edite no expo.dev e **gere um build novo**: as variáveis entram no APK na hora do build.
+- **Nunca cadastre `DATABASE_URL` nem `JWT_SECRET` no EAS.** O app não usa essas variáveis (ele só fala com a API)
+  e qualquer coisa que entra no APK pode ser extraída por quem o tiver. Elas ficam no `acolhe-web` e no Vercel.
+
+#### Para instalar no celular
+
+Para quem vai testar. É só isso, sem instalar nada no computador:
 
 1. Abra o link no celular Android e baixe o APK.
 2. Se o Android pedir, permita instalar de **fontes desconhecidas**.
-3. Abra o app uma vez e entre (ex.: **"Entrar como Dona Maria"**).
+3. Abra o app e entre com sua conta, ou com uma conta de teste do seed: `maria@exemplo.com` (pessoa cuidada) ou
+   `ana@exemplo.com` (cuidadora), senha `12345678`. Os botões "Entrar como Dona Maria/Ana" só aparecem no modo
+   demonstração, então não aparecem no APK.
 4. Segure o dedo na tela inicial → **Widgets** → **Acolhe SOS** e arraste para a tela.
 
-**Observações:**
+**Instale uma vez só.** O app instalado não se atualiza sozinho. Quem testa só repete a instalação quando receber
+o **link de um build novo**: baixe o novo APK e instale por cima, sem desinstalar. Pode ser preciso entrar
+de novo e, se o widget sumir, adicioná-lo outra vez.
 
-- O APK sai no **modo demonstração** (dados simulados): o `.env` não vai para o build. Para usar a API real,
-  cadastre `EXPO_PUBLIC_USE_MOCKS=false` e `EXPO_PUBLIC_API_URL` (URL pública, não `localhost`) em
-  expo.dev → projeto → **Environment variables**, no ambiente `preview`.
-- **Não use o perfil `development` para o grupo.** Ele só funciona com o `expo start` rodando no seu computador.
+#### Observações
+
 - **Mudou o código? Gere um build novo** e mande o novo link.
+- **Não use o perfil `development` para o grupo.** Ele só funciona com o `expo start` rodando no seu computador.
 - **iPhone não instala APK.** Para testar o widget no iOS é preciso conta Apple Developer (paga) e cadastrar
   cada aparelho (`npx eas-cli@latest device:create`) ou distribuir pelo TestFlight.
-
 
 ## Estrutura de pastas
 
