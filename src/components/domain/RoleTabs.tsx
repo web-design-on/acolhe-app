@@ -30,7 +30,7 @@ export function RoleTabs({ role, tabs }: { role: AppRole; tabs: TabDef[] }) {
           height: 76 + bottom,
           paddingTop: 6,
           paddingBottom: 10 + bottom,
-          borderTopColor: colors.border,
+          borderTopColor: colors.divider,
         },
         tabBarLabelStyle: { fontFamily: fontFamily.bold, fontSize: 13 },
       }}

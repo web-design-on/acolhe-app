@@ -1,9 +1,9 @@
 /** Peças visuais pequenas e reutilizáveis: cartão, avatar, etiqueta, ícone com fundo e faixa de aviso. */
 import type { ReactNode } from "react";
-import { StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
+import { Image, StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
 import { AppText } from "./AppText";
 import { Icon, type IconName } from "./Icon";
-import { colors, radius, spacing, type ColorToken } from "@/theme";
+import { colors, radius, shadow, spacing, type ColorToken } from "@/theme";
 
 export function Card({ children, style }: { children: ReactNode; style?: StyleProp<ViewStyle> }) {
   return <View style={[styles.card, style]}>{children}</View>;
@@ -14,12 +14,12 @@ export function Avatar({ initials, size = 44, tone = "primary" }: { initials: st
     <View
       style={{
         width: size, height: size, borderRadius: size / 2, alignItems: "center", justifyContent: "center",
-        backgroundColor: tone === "info" ? colors.infoSoft : colors.primaryMuted,
+        backgroundColor: tone === "info" ? colors.infoSoft : colors.primary,
       }}
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
     >
-      <AppText bold size={size > 50 ? "lg" : "md"} color={tone === "info" ? "info" : "primary"}>{initials}</AppText>
+      <AppText bold size={size > 50 ? "lg" : "md"} color={tone === "info" ? "info" : "surface"}>{initials}</AppText>
     </View>
   );
 }
@@ -78,9 +78,12 @@ export function InfoBanner({ icon, title, description, tone = "success", style }
 export function Brand({ inverted = false }: { inverted?: boolean }) {
   return (
     <View style={{ flexDirection: "row", alignItems: "center", gap: spacing.sm }}>
-      <View style={[styles.brandMark, inverted && { backgroundColor: colors.surface }]}>
-        <Icon name="heart" color={inverted ? "primary" : "textOnPrimary"} size={24} />
-      </View>
+      <Image
+        source={inverted ? require("../../../assets/logobranco_acolhe.png") : require("../../../assets/logo_acolhe.png")}
+        style={styles.brandMark}
+        resizeMode="contain"
+        accessibilityElementsHidden
+      />
       <AppText size="xxl" bold color={inverted ? "textOnPrimary" : "primary"}>Acolhe</AppText>
     </View>
   );
@@ -89,13 +92,12 @@ export function Brand({ inverted = false }: { inverted?: boolean }) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.surface,
-    borderColor: colors.border,
-    borderWidth: 1,
+    ...shadow.card,
     borderRadius: radius.lg,
     padding: spacing.lg,
     marginVertical: spacing.sm,
   },
   tag: { flexDirection: "row", alignItems: "center", gap: 4, borderRadius: radius.pill, paddingHorizontal: 10, paddingVertical: 5, alignSelf: "flex-start" },
   banner: { flexDirection: "row", alignItems: "center", gap: spacing.md, borderRadius: 14, padding: 14 },
-  brandMark: { width: 46, height: 46, borderRadius: 14, backgroundColor: colors.primary, alignItems: "center", justifyContent: "center" },
+  brandMark: { width: 52, height: 52 },
 });

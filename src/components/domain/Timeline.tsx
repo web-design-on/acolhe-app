@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
   rail: { width: 30, alignItems: "center" },
   dot: { width: 28, height: 28, borderRadius: 14, backgroundColor: colors.successSoft, alignItems: "center", justifyContent: "center" },
   dotWarn: { backgroundColor: colors.warningSoft },
-  line: { flex: 1, width: 2, backgroundColor: colors.border, marginVertical: 2 },
+  line: { flex: 1, width: 2, backgroundColor: colors.divider, marginVertical: 2 },
   body: { flex: 1, paddingLeft: 10, paddingBottom: 16, gap: 2 },
 });

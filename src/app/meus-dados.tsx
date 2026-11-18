@@ -415,7 +415,7 @@ const styles = StyleSheet.create({
   sectionHeader: { flexDirection: "row", alignItems: "center", gap: spacing.md },
   edit: { flexDirection: "row", alignItems: "center", gap: 6, minHeight: 48, paddingHorizontal: 4 },
   row: { flexDirection: "row", alignItems: "center", gap: spacing.md, paddingVertical: 12 },
-  divider: { borderBottomWidth: 1, borderBottomColor: colors.border },
+  divider: { borderBottomWidth: 1, borderBottomColor: colors.divider },
   success: { flexDirection: "row", alignItems: "center", gap: spacing.sm, marginTop: spacing.md },
   privacy: { flexDirection: "row", alignItems: "center", gap: spacing.sm, marginTop: spacing.xl },
 });

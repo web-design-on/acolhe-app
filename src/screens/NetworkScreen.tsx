@@ -3,7 +3,7 @@ import { AppText, Avatar, Icon, InfoBanner, Screen, ScreenHeader, StatusTag } fr
 import { channelsText, ChannelTag, QueryState } from "@/components/domain";
 import { useCurrentUser } from "@/contexts/AuthContext";
 import { useCaregivers, usePatient } from "@/hooks/useCare";
-import { colors, spacing } from "@/theme";
+import { colors, radius, shadow, spacing } from "@/theme";
 import type { Caregiver } from "@/types";
 
 function Person({ c, position }: { c: Caregiver; position: number }) {
@@ -36,7 +36,9 @@ function Group({ title, description, list }: { title: string; description: strin
     <View style={{ marginTop: spacing.xl }}>
       <AppText size="xl" bold accessibilityRole="header">{title}</AppText>
       <AppText color="textMuted" style={{ marginBottom: spacing.sm }}>{description}</AppText>
-      {list.map((c, i) => <Person key={c.id} c={c} position={i + 1} />)}
+      <View style={styles.list}>
+        {list.map((c, i) => <Person key={c.id} c={c} position={i + 1} />)}
+      </View>
     </View>
   );
 }
@@ -88,9 +90,10 @@ export function NetworkScreen() {
 }
 
 const styles = StyleSheet.create({
+  list: { backgroundColor: colors.surface, borderRadius: radius.lg, paddingHorizontal: spacing.md, ...shadow.card },
   person: {
     flexDirection: "row", alignItems: "center", gap: spacing.md, paddingVertical: 14, paddingHorizontal: 4,
-    borderBottomWidth: 1, borderBottomColor: colors.border, minHeight: 76,
+    borderBottomWidth: 1, borderBottomColor: colors.divider, minHeight: 76,
   },
   channels: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
 });
