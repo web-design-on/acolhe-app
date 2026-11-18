@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { AppText, Avatar, Icon, IconBadge, StatusTag, type IconName, type Tone } from "@/components/ui";
 import { channelLabels, ChannelTag } from "./Channel";
-import { colors, radius, spacing } from "@/theme";
+import { colors, radius, shadow, spacing } from "@/theme";
 import type { AlertRecipient, Caregiver } from "@/types";
 
 interface InfoRowProps {
@@ -79,11 +79,11 @@ export function RecipientList({ recipients, caregivers }: { recipients: AlertRec
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row", alignItems: "center", gap: spacing.md, backgroundColor: colors.surface,
-    borderWidth: 1, borderColor: colors.border, borderRadius: radius.lg, padding: 14, marginVertical: 6,
+    ...shadow.card, borderRadius: radius.lg, padding: 14, marginVertical: 6,
   },
   recipient: {
     flexDirection: "row", alignItems: "center", gap: spacing.md, backgroundColor: colors.surface,
-    borderWidth: 1, borderColor: colors.border, borderRadius: 14, padding: 11,
+    ...shadow.card, borderRadius: 14, padding: 11,
   },
   recipientAssumed: { borderColor: colors.success, borderWidth: 2 },
 });

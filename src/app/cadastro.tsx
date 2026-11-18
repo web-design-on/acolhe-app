@@ -5,7 +5,7 @@ import { AppText, Button, Card, CheckRow, Eyebrow, Field, Icon, IconBadge, InfoB
 import { useAuth } from "@/contexts/AuthContext";
 import { TextSizeLabel } from "@/components/domain";
 import { patientService } from "@/services";
-import { colors, radius, spacing } from "@/theme";
+import { colors, radius, shadow, spacing } from "@/theme";
 import type { AccessibilityPrefs, Patient, RegisterInput } from "@/types";
 import { formatPhone, isValidPhone } from "@/utils/phone";
 import { defaultPrefs, textSizeOptions } from "@/utils/preferences";
@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
   back: { flexDirection: "row", alignItems: "center", gap: 6, paddingVertical: 10, marginBottom: 12, alignSelf: "flex-start", minHeight: 48 },
   choice: {
     flexDirection: "row", alignItems: "center", gap: spacing.lg, minHeight: 80, padding: 14,
-    backgroundColor: colors.surface, borderWidth: 1.5, borderColor: colors.border, borderRadius: radius.lg,
+    backgroundColor: colors.surface, ...shadow.card, borderWidth: 1.5, borderColor: "transparent", borderRadius: radius.lg,
   },
   bar: { height: 8, borderRadius: 4, backgroundColor: colors.border, overflow: "hidden" },
   barFill: { height: 8, backgroundColor: colors.primary },

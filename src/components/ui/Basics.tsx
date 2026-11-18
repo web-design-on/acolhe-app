@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { Image, StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
 import { AppText } from "./AppText";
 import { Icon, type IconName } from "./Icon";
-import { colors, radius, spacing, type ColorToken } from "@/theme";
+import { colors, radius, shadow, spacing, type ColorToken } from "@/theme";
 
 export function Card({ children, style }: { children: ReactNode; style?: StyleProp<ViewStyle> }) {
   return <View style={[styles.card, style]}>{children}</View>;
@@ -92,8 +92,7 @@ export function Brand({ inverted = false }: { inverted?: boolean }) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.surface,
-    borderColor: colors.border,
-    borderWidth: 1,
+    ...shadow.card,
     borderRadius: radius.lg,
     padding: spacing.lg,
     marginVertical: spacing.sm,

@@ -2,7 +2,7 @@ import { Linking, Pressable, StyleSheet, View } from "react-native";
 import { Redirect, router } from "expo-router";
 import { AppText, Brand, Button, Eyebrow, Icon, IconBadge, Screen, type IconName } from "@/components/ui";
 import { useAuth } from "@/contexts/AuthContext";
-import { colors, radius, spacing } from "@/theme";
+import { colors, radius, shadow, spacing } from "@/theme";
 
 const WEB_PORTAL_URL = process.env.EXPO_PUBLIC_WEB_URL ?? "http://localhost:5173";
 
@@ -51,7 +51,7 @@ export default function WelcomeScreen() {
 const styles = StyleSheet.create({
   role: {
     flexDirection: "row", alignItems: "center", gap: spacing.lg, minHeight: 80, padding: 14,
-    backgroundColor: colors.surface, borderWidth: 1.5, borderColor: colors.border, borderRadius: radius.lg,
+    backgroundColor: colors.surface, ...shadow.card, borderWidth: 1.5, borderColor: "transparent", borderRadius: radius.lg,
   },
   privacy: { flexDirection: "row", alignItems: "center", gap: spacing.sm, marginTop: 32 },
 });
