@@ -7,7 +7,7 @@ export default function CuidadorLayout() {
       tabs={[
         { name: "index", title: "Início", icon: "home" },
         { name: "alertas", title: "Alertas", icon: "bell" },
-        { name: "consultas", title: "Consultas", icon: "calendar" },
+        { name: "consultas", title: "Cuidados", icon: "calendar" },
         { name: "rotina", title: "Rotina", icon: "file-text" },
         { name: "rede", title: "Rede", icon: "users" },
       ]}
