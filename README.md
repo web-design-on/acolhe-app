@@ -10,7 +10,17 @@ O portal web e a API ficam em [acolhe-web](https://github.com/web-design-on/acol
 | --- | --- |
 | **Portal web (deploy)** | https://acolhe-web-tau.vercel.app |
 | **App mobile** | [github.com/web-design-on/acolhe-app](https://github.com/web-design-on/acolhe-app) — veja [Como executar](#como-executar-o-app) |
+| **APK para Android (release)** | [Acolhe v1.0.0](https://github.com/web-design-on/acolhe-app/releases/latest) |
 | **Portal web + API** | [github.com/web-design-on/acolhe-web](https://github.com/web-design-on/acolhe-web) |
+
+> **Importante para testar**
+>
+> - **O widget de SOS só aparece com o app instalado.** Baixe e instale o APK da
+>   [release mais recente](https://github.com/web-design-on/acolhe-app/releases/latest) num celular Android. Ele não
+>   aparece no Expo Go nem no navegador.
+> - **O modo demonstração só funciona rodando o app localmente** (`npx expo start`, com `EXPO_PUBLIC_USE_MOCKS=true`).
+>   O APK da release usa os dados reais da API: os botões "Entrar como Dona Maria/Ana" e "Simular alerta" não aparecem
+>   nele. Use as contas de teste (`maria@exemplo.com` ou `ana@exemplo.com`, senha `12345678`).
 
 ## Integrantes
 
@@ -108,11 +118,13 @@ cp .env.example .env
 npx expo start
 ```
 
-- **Celular:** abra o **Expo Go** e leia o QR code. Tudo funciona, **menos o widget** (veja [Widget de SOS](#widget-de-sos-tela-inicial)).
+- **Celular:** abra o **Expo Go** e leia o QR code. Tudo funciona, **menos o widget**: para ele, instale o APK da
+  [release](https://github.com/web-design-on/acolhe-app/releases/latest) (veja [Widget de SOS](#widget-de-sos-tela-inicial)).
 - **Navegador:** aperte `w` no terminal (ou `npm run web`).
 
 Por padrão (`EXPO_PUBLIC_USE_MOCKS=true`) o app usa dados simulados e não precisa de API. Na tela de login há os
-botões **"Entrar como Dona Maria"** / **"Entrar como Ana"** (modo demonstração).
+botões **"Entrar como Dona Maria"** / **"Entrar como Ana"** (modo demonstração). O modo demonstração **só existe
+rodando localmente**; o APK da release não tem esses botões.
 
 ### Usar os dados reais (mesma API do portal)
 
@@ -130,6 +142,8 @@ Para usar a API local, rode `npm run dev` no `acolhe-web` (API em `http://localh
 Entre com as contas do seed (senha `12345678`): `maria@exemplo.com` (pessoa cuidada) ou `ana@exemplo.com` (cuidadora).
 
 ### Roteiro de demonstração
+
+> Só funciona com o app rodando localmente em modo demonstração (`EXPO_PUBLIC_USE_MOCKS=true`), não no APK.
 
 1. Entre como **Dona Maria** → toque em **PRECISO DE AJUDA** → contagem de 5 s → a rede "vê" e a Ana "assume" sozinha (simulação).
 2. Entre como **Ana** → na tela inicial, toque em **Simular alerta** → **Assumir e ir ajudar** → **Cheguei, está tudo bem**.
@@ -155,7 +169,9 @@ Assim um toque sem querer no widget não dispara o alerta.
 
 Configuração dos dois em `app.json` (seção `plugins`).
 
-**Widgets não funcionam no Expo Go.** Para testar, gere uma versão de desenvolvimento:
+**O widget só aparece com o app instalado no celular.** Ele não funciona no Expo Go nem no navegador. O jeito mais
+simples de testar é instalar o APK da [release mais recente](https://github.com/web-design-on/acolhe-app/releases/latest)
+(veja [Para instalar no celular](#para-instalar-no-celular)). Para desenvolver, gere uma versão de desenvolvimento:
 
 ```bash
 # Android (precisa do Android Studio instalado)
@@ -209,7 +225,8 @@ configuradas. Não é preciso mexer no expo.dev:
 
 Para quem vai testar. É só isso, sem instalar nada no computador:
 
-1. Abra o link no celular Android e baixe o APK.
+1. Abra o link do build (ou a [release mais recente](https://github.com/web-design-on/acolhe-app/releases/latest))
+   no celular Android e baixe o APK.
 2. Se o Android pedir, permita instalar de **fontes desconhecidas**.
 3. Abra o app e entre com sua conta, ou com uma conta de teste do seed: `maria@exemplo.com` (pessoa cuidada) ou
    `ana@exemplo.com` (cuidadora), senha `12345678`. Os botões "Entrar como Dona Maria/Ana" só aparecem no modo
