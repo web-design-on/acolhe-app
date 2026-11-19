@@ -265,9 +265,3 @@ Todas as cores ficam em **`src/theme/colors.ts`**, com os mesmos valores do port
 - **Alertas:** sem push ainda, o app consulta o alerta ativo a cada 4 s (15 s sem alerta), pausando em segundo plano.
 - **Contas:** o app aceita a pessoa cuidada e cuidadores; contas de médico usam o portal.
 - Cada função de `src/services` chama uma rota da API ou, com `EXPO_PUBLIC_USE_MOCKS=true`, usa `src/mocks`.
-
-## Próximos passos
-
-- **Notificações push** (`expo-notifications`) para avisar o cuidador com o app fechado.
-- **Localização** junto com o alerta (`expo-location`).
-- **Sessão compartilhada com o widget de SOS.**
